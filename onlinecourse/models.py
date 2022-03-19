@@ -106,18 +106,22 @@ class Enrollment(models.Model):
     # question text
     # question grade/mark
 class Question(models.Model):
-    question = models.ForeignKey(Course, on_delete=models.CASCADE)
-    question_content = models.TextField()
-    question_grade = models.FloatField(default=10.0)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    content = models.CharField(max_length=200, null=True)
+    grade = models.IntegerField(default=10)
 
     # <HINT> A sample model method to calculate if learner get the score of the question
     def is_get_score(self, selected_ids):
        all_answers = self.choice_set.filter(is_correct=True).count()
        selected_correct = self.choice_set.filter(is_correct=True, id__in=selected_ids).count()
-       if all_answers == selected_correct:
+       selected_incorrect = self.choice_set.filter(is_correct=False, id__in=selected_ids).count()
+       if all_answers == (selected_correct - selected_incorrect):
            return True
        else:
            return False
+
+    def __str__(self):
+        return self.content
 
 
 #  <HINT> Create a Choice Model with:
@@ -128,9 +132,12 @@ class Question(models.Model):
     # Other fields and methods you would like to design
 
 class Choice(models.Model):
-    choice = models.ForeignKey(Question, on_delete=models.CASCADE)
-    choice_content = models.TextField()
-    is_correct = True
+    question = models.ForeignKey(Question , on_delete=models.CASCADE)
+    content = models.CharField(max_length=200, null=True)
+    is_correct = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.content
 
 
 # <HINT> The submission model
@@ -141,4 +148,7 @@ class Choice(models.Model):
 class Submission(models.Model):
    enrollment = models.ForeignKey(Enrollment, on_delete=models.CASCADE)
    chocies = models.ManyToManyField(Choice)
+
+   def __str__(self):
+       return f"submission:{self.pk}"
 #    Other fields and methods you would like to design
