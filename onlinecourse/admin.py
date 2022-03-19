@@ -12,6 +12,7 @@ class ChoiceInline(admin.StackedInline):
     model = Choice
     extra = 4
 
+
 class LessonInline(admin.StackedInline):
     model = Lesson
     extra = 5

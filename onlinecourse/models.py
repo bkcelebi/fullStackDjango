@@ -132,6 +132,7 @@ class Choice(models.Model):
     choice_content = models.TextField()
     is_correct = True
 
+
 # <HINT> The submission model
 # One enrollment could have multiple submission
 # One submission could have multiple choices

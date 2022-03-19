@@ -63,6 +63,18 @@
 
             -->
 
+            <div id="exam" class="collapse">
+                {% if user.is_authenticated %}
+                    {% for question in question %}
+                    <ul>{{ question.question_content }}</ul>
+                        {% for choice in choice %}
+                        <li> {{ choice.choice_content }} </li>
+                        {% endfor %}
+                    {% endfor %}
+                {% endif %}
+
+            </div>
+
             <!-- <HINT> If user is authenticated, show course exam with a list of question -->
 
             <!-- <HINT> Each example will have many questions -->
