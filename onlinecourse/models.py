@@ -121,7 +121,7 @@ class Question(models.Model):
            return False
 
     def __str__(self):
-        return self.content
+        return self.content or ''
 
 
 #  <HINT> Create a Choice Model with:
@@ -137,7 +137,7 @@ class Choice(models.Model):
     is_correct = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.content
+        return self.content or ''
 
 
 # <HINT> The submission model
